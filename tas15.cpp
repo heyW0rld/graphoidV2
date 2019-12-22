@@ -81,7 +81,7 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                         v2->setColor(Qt::magenta);
                         graph.insert(v2, QList<edge_smpt>());
                         edge_smpt edge1 = edge_smpt(new Edge(v1, v2, 1));
-                        graph[v1].append(edge);
+                        graph[v1].append(edge1);
                         qDebug()<<vec;
                         vec.erase(std::remove(vec.begin(), vec.end(), v->getName()), vec.end());
                         vec.erase(std::remove(vec.begin(), vec.end(), edge->getVertex()->getName()), vec.end());
@@ -122,12 +122,12 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                         v2->setColor(Qt::magenta);
                         graph.insert(v2, QList<edge_smpt>());
                         edge_smpt edge1 = edge_smpt(new Edge(v1, v2, 1));
-                        graph[v1].append(edge);
+                        graph[v1].append(edge1);
                         vec.erase(std::remove(vec.begin(), vec.end(), v->getName()), vec.end());
                         vec.erase(std::remove(vec.begin(), vec.end(), edge->getVertex()->getName()), vec.end());
                         stop = true;
                         break;
-                        qDebug()<<"here31";
+
                     }
                 }
                 }
