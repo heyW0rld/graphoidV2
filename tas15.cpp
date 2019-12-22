@@ -1,6 +1,6 @@
 #include "tas15.h"
 #include <QColor>
-
+#include<QMessageBox>
 Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
     bool dual = true;
     QVector<QString> vec;
@@ -53,17 +53,21 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
             dual = false;
         }
     }
-    if(!dual)
+    if(!dual){
+        QMessageBox msgBox;
+        msgBox.setText("недвудольный.");
+        msgBox.exec();
         return gr;
-
+    }
 //zadacha
     Graph graph;
     int k = 0;
-
+    int n=0;
 
 
 
     while(vec.size()>1 ){
+        n++;
         qDebug()<<"1";
         for(auto v : all_vertex)
         {qDebug()<<"2";
@@ -73,7 +77,12 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                     for (auto edge : gr.vertexAt(v))
                     {qDebug()<<"4";
                         qDebug()<<v->getName();
-                        qDebug()<<edge->getVertex()->getName();
+                        qDebug()<<edge->getVertex()->getName();bool ok = true;
+                        for(auto versh : graph.getVertexAsKeys()){
+                            if(versh->getName() == v->getName() || versh->getName() ==edge->getVertex()->getName())
+                                ok=false;
+                        }
+                        if(ok){
                         vertex_smpt v1(new Vertex(v->getName(), (1+k)%200+ rand()%200,(1+k)%200+rand()%200));
                         v1->setColor(Qt::red);
                         graph.insert(v1, QList<edge_smpt>());
@@ -86,6 +95,7 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                         vec.erase(std::remove(vec.begin(), vec.end(), v->getName()), vec.end());
                         vec.erase(std::remove(vec.begin(), vec.end(), edge->getVertex()->getName()), vec.end());
                         qDebug()<<vec;
+                        }
                     }
                 }
             }
@@ -115,6 +125,12 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                 {qDebug()<<"11";
                     for (auto edge : gr.vertexAt(v))
                     {qDebug()<<"12";
+                        bool ok = true;
+                        for(auto versh : graph.getVertexAsKeys()){
+                            if(versh->getName() == v->getName() || versh->getName() ==edge->getVertex()->getName())
+                                ok=false;
+                        }
+                        if(ok){
                         vertex_smpt v1(new Vertex(v->getName(), (1+k)%200+ rand()%200,(1+k)%200+rand()%200));
                         v1->setColor(Qt::red);
                         graph.insert(v1, QList<edge_smpt>());
@@ -127,7 +143,7 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
                         vec.erase(std::remove(vec.begin(), vec.end(), edge->getVertex()->getName()), vec.end());
                         stop = true;
                         break;
-
+                        }
                     }
                 }
                 }
@@ -137,11 +153,22 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
         }
         }
         qDebug()<<"inWhile";
-
+        if(n>15)
+            break;
+    }
+    if(graph.getVertexAsKeys().size() == (v1.size()+v2.size()))
+    {   qDebug()<<graph.getVertexAsKeys().size() ;
+        qDebug()<<gr.getVertexAsKeys().size();
+        return graph;
+    }else{
+        qDebug()<<graph.getVertexAsKeys().size() ;
+                qDebug()<<gr.getVertexAsKeys().size();
+        QMessageBox msgBox;
+        msgBox.setText("задача не может быть решена.");
+        msgBox.exec();
+        return gr;
     }
 
-
-    return graph;
 }
 
 
