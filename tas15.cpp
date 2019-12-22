@@ -56,13 +56,51 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
     if(!dual)
         return gr;
 
+//zadacha
+    Graph graph;
+    int k = 0;
 
-    for(auto v : all_vertex){
-        if(auto edge1: gr.vertexAt(v)){
 
+
+
+    while(vec.size()>0){
+        for(auto v : all_vertex)
+        {
+            if(vec.contains(v->getName())){
+                if(gr.vertexAt(v).size()==1)
+                {
+                    for (auto edge : gr.vertexAt(v))
+                    {
+                        vertex_smpt v1(new Vertex(v->getName(), (1+k)%200+ rand()%200,(1+k)%200+rand()%200));
+                        v1->setColor(Qt::black);
+                        graph.insert(v1, QList<edge_smpt>());
+                        vertex_smpt v2(new Vertex(edge->getVertex()->getName(), (2+k)%200+ rand()%200,(2+k)%200+rand()%200));
+                        v2->setColor(Qt::magenta);
+                        graph.insert(v2, QList<edge_smpt>());
+                        edge_smpt edge1 = edge_smpt(new Edge(v1, v2, 1));
+                        graph[v1].append(edge);
+                        vec.erase(std::remove(vec.begin(), vec.end(), v->getName()), vec.end());
+                        vec.erase(std::remove(vec.begin(), vec.end(), edge->getVertex()->getName()), vec.end());
+                    }
+                }
+            }
         }
+        QVector<int> sizeVec;
+        QList<int>vec;
+        for(auto v : all_vertex)
+        {
+            sizeVec.append(gr.vertexAt(v).size());
+        }
+        qSort(sizeVec);
     }
 
 
-    return gr;
+    return graph;
 }
+
+
+
+
+
+
+
