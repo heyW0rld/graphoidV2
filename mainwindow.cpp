@@ -1546,23 +1546,23 @@ void MainWindow::func7()
 
 #include "task9.h"
 //планарность графа
-//void MainWindow::func9(){
-//    if (table->rowCount() > 1){
-//        QVector<QVector<int>> matrix;
-//        for (int i = 0; i < table->rowCount(); i++) {
-//            QVector<int> vector;
-//            for (int j = 0; j < table->rowCount(); j++) {
-//                QTableWidgetItem *x = table->item(i, j);
-//                vector.push_back(x->text().toInt());
-//            }
-//            matrix.push_back(vector);
-//        }
-//        Graph gr = lab9(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph(),matrix);
-//        newG();
-//        dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(gr);
-//        changeMatrix();
-//    }
-//}
+void MainWindow::func9(){
+    if (table->rowCount() > 1){
+        QVector<QVector<int>> matrix;
+        for (int i = 0; i < table->rowCount(); i++) {
+            QVector<int> vector;
+            for (int j = 0; j < table->rowCount(); j++) {
+                QTableWidgetItem *x = table->item(i, j);
+                vector.push_back(x->text().toInt());
+            }
+            matrix.push_back(vector);
+        }
+        Graph gr = lab9(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph(),matrix);
+        newG();
+        dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(gr);
+        changeMatrix();
+    }
+}
 
 // Восстановление графа из вектора
 void MainWindow::func10()
