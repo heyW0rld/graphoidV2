@@ -25,6 +25,7 @@
 #include "saving.h"
 #include <QComboBox>
 #include <QListView>
+#include <tas15.h>
 
 namespace Ui {
 class MainWindow;

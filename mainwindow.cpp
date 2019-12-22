@@ -1331,16 +1331,7 @@ void MainWindow::func4()
                return;
            }
            bool isIsomorphic = lab5::Isomorphism(dynamic_cast<Canvas*>(tab->widget(0))->getGraph(), dynamic_cast<Canvas*>(tab->widget(1))->getGraph());
-//           QString message;
-//           if (isIsomorphic)
-//           {
-//               message = "Графы изоморфны.";
-//           }
-//           else
-//           {
-//               message = "Графы не изоморфны.";
-//           }
-           //QMessageBox::information(this, "Изоморфизм", message);
+
     } catch (int smth)
     {
         QMessageBox::about(this, "Ошибка", "Не корректные данные!");
@@ -1615,5 +1606,52 @@ void MainWindow::func11()
 // Задача о свадьбах
 void MainWindow::func15()
 {
+    Graph g = dynamic_cast<Canvas*>(tab->currentWidget())->getGraph();
+    QList<vertex_smpt> vertices = g.getVertexAsKeys().toList();
+    QList<QString> verticesNamesL;
+    for (auto it = vertices.begin(); it != vertices.end(); it++)
+    {
+        verticesNamesL.append((*it)->getName());
+    }
+    QVector<QString> verticesNames = verticesNamesL.toVector();
+    QVector<QString> firstDOLA;
+    QVector<QString> secondDOLA;
+//    QString startName = QInputDialog::getText(this, "FloydWarshall", "Введите имя начальной вершины:");
 
+    while(true){
+
+        QString startName = QInputDialog::getText(this, "С хуем", "Введите имя вершины:");
+        if(startName =="-")
+            break;
+        if (!verticesNames.contains(startName))
+        {
+            QMessageBox::warning(this, "ты невнимательная мразь", "Нет вершины с именем " + startName + "!");
+            return;
+        }
+
+        firstDOLA.append(startName);
+        }
+    while(true){
+        QString startName = QInputDialog::getText(this, "Без хуя", "Введите имя вершины:");
+        if(startName =="-")
+            break;
+        if (!verticesNames.contains(startName)){
+            QMessageBox::warning(this, "ты невнимательная мразь", "Нет вершины с именем " + startName + "!");
+            return;
+        }
+        if(firstDOLA.contains(startName)){
+            QMessageBox::warning(this, "ты невнимательная мразь", " ты уже писал это, слепошара!!!");
+            return;
+        }
+
+        secondDOLA.append(startName);
+    }
+   if(firstDOLA.size() == secondDOLA.size()){
+    g = lab15(g,firstDOLA,secondDOLA);
+    }else{
+       QMessageBox::warning(this, "ты невнимательная мразь", " количества не сопадают");
+       return;
+    }
+   newG();
+    dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(g);
 }
