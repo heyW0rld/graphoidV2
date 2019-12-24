@@ -36,6 +36,7 @@ HEADERS += \
     saving.h \
     tas15.h \
     task.h \
+    task13.h \
     task5.h \
     task6.h \
     task8.h \

@@ -257,6 +257,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *f11 = new QAction(tr("&Экстремальные графы"), this);
     functions->addAction(f11);
 
+    //    13 лаба
+        QAction *f13 = new QAction(tr("&Задача о цикле"), this);
+        functions->addAction(f13);
+
 //    15 лаба
     QAction *f15 = new QAction(tr("&Задача о свадьбах"), this);
     functions->addAction(f15);
@@ -317,6 +321,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(f10, SIGNAL(triggered()), this, SLOT(func10()));
 
     connect(f11, SIGNAL(triggered()), this, SLOT(func11()));
+
+    connect(f13, SIGNAL(triggered()), this, SLOT(func13()));
 
     connect(f15, SIGNAL(triggered()), this, SLOT(func15()));
 }
@@ -1602,7 +1608,68 @@ void MainWindow::func11()
 
 }
 
+#include "task13.h"
+void MainWindow::func13()
+{
+    QVector<int>cycle = task13::minCycle(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().toAdjacencyMatrix(compare));
+    if(cycle.size())
+    {
+    for(auto verInCyc : cycle) //todo create new graph
+        for(auto ver : dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().getVertexAsKeys())
+        {
+            if(ver->getName() == table->horizontalHeaderItem(verInCyc)->text())
+                ver->setColor(Qt::red);
+        }
+    }
+    else
+    {
+        QString centerStr;
+        QVector<int> center = task13::centerVer(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph());
+        for(auto verCenter : center) //todo create new graph
+            for(auto ver : dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().getVertexAsKeys())
+            {
+                if(ver->getName() == table->horizontalHeaderItem(verCenter)->text())
+                    centerStr+=(ver->getName() + " ");
+            }
 
+        QString depthStr;
+        for(auto it: center)
+            depthStr += QString::number(task13::depth(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph(), it)) + " ";
+
+        QString pruferStr;
+        for(auto it: task13::Prufer(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().toAdjacencyMatrix(compare)))
+            pruferStr += (table->horizontalHeaderItem(it)->text() + " ");
+
+        QMessageBox::about(this, "Задача о цикле", "Циклов нет<br>Центр(ы) дерева: " + centerStr +"<br>Глубина: " + depthStr + "<br>Код Прюфера: "
+                           + pruferStr);
+
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setTextFormat(Qt::RichText);
+        //msgBox.setText("Все несохраненные данные будут утеряны!");
+        msgBox.setInformativeText("Желаете сохранить код Прюфера в файл?");
+        QPushButton *yesButton = msgBox.addButton(QObject::tr("Да"), QMessageBox::ActionRole);
+        QPushButton *noButton = msgBox.addButton(QObject::tr("Нет"), QMessageBox::ActionRole);
+        msgBox.setDefaultButton(yesButton);
+        msgBox.exec();
+
+        if (msgBox.clickedButton() == yesButton)
+        {
+            QString savefile = QFileDialog::getSaveFileName(nullptr, "Save as", "filename", "*.txt");
+            QFile file(savefile);
+            if(file.exists() || file.open(QIODevice::WriteOnly ))
+            {
+                 file.open(QIODevice::WriteOnly);
+            }
+
+                file.write(pruferStr.toStdString().c_str());
+
+                file.close();
+        }
+    }
+
+
+}
 // Задача о свадьбах
 void MainWindow::func15()
 {
