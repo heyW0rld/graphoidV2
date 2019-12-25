@@ -257,9 +257,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *f11 = new QAction(tr("&Экстремальные графы"), this);
     functions->addAction(f11);
 
-    //    13 лаба
-        QAction *f13 = new QAction(tr("&Задача о цикле"), this);
-        functions->addAction(f13);
+//    12 лаба
+    QMenu *f12 = new QMenu(tr("&Каркас графа"), this);
+    QAction *f121 = new QAction(tr("&Алгоритм Краскала"), this);
+    QAction *f122 = new QAction(tr("&Алгоритм Прима"), this);
+    QAction *f123 = new QAction(tr("&Алгоритм Борувки"), this);
+    functions->addMenu(f12);
+    f12->addAction(f121);
+    f12->addAction(f122);
+    f12->addAction(f123);
+
+//    13 лаба
+    QAction *f13 = new QAction(tr("&Задача о цикле"), this);
+    functions->addAction(f13);
 
 //    15 лаба
     QAction *f15 = new QAction(tr("&Задача о свадьбах"), this);
@@ -321,6 +331,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(f10, SIGNAL(triggered()), this, SLOT(func10()));
 
     connect(f11, SIGNAL(triggered()), this, SLOT(func11()));
+
+    connect(f121, SIGNAL(triggered()), this, SLOT(func121()));
+
+    connect(f122, SIGNAL(triggered()), this, SLOT(func122()));
+
+    connect(f123, SIGNAL(triggered()), this, SLOT(func123()));
 
     connect(f13, SIGNAL(triggered()), this, SLOT(func13()));
 
@@ -1598,7 +1614,7 @@ void MainWindow::func10()
                             tr("Нечётная сумма степеней"), QMessageBox::Ok);
       return;
   }
-    laba10(powerList);
+
 }
 
 
@@ -1606,6 +1622,216 @@ void MainWindow::func10()
 void MainWindow::func11()
 {
 
+}
+
+void MainWindow::func121()
+{
+    QVector < pair < int, pair<int,int> > > g;
+    QVector<QVector<int>> newmatrix;
+    int n = table->rowCount();
+    for (int i = 0; i < table->rowCount(); i++) {
+        QVector<int> newvector;
+        for (int j = 0; j < table->rowCount(); j++) {
+            newvector.push_back(0);
+            QTableWidgetItem *x = table->item(i, j);
+            if (x->text().toInt() > 0) {
+                g.push_back(make_pair(x->text().toInt(), make_pair(i, j)));
+            }
+        }
+        newmatrix.push_back(newvector);
+    }
+
+    QVector < pair < int, pair<int,int> > > res;
+
+    sort (g.begin(), g.end());
+
+    QVector<int> tree_id;
+
+    for (int i = 0; i < n; i++)
+        tree_id.push_back(i);
+
+    for (int i=0; i<n; ++i)
+        tree_id[i] = i;
+    for (int i=0; i<g.size(); ++i)
+    {
+        int a = g[i].second.first,  b = g[i].second.second,  l = g[i].first;
+        if (tree_id[a] != tree_id[b])
+        {
+            res.push_back (make_pair(l, make_pair(a, b)));
+            int old_id = tree_id[b],  new_id = tree_id[a];
+            for (int j=0; j<n; ++j)
+                if (tree_id[j] == old_id)
+                    tree_id[j] = new_id;
+        }
+    }
+
+    for (int i = 0; i < res.size(); i++) {
+        newmatrix[res.at(i).second.first][res.at(i).second.second] = res.at(i).first;
+    }
+    if (cmbx->currentText() == "Ориентированный граф") {
+        cmbx->setCurrentIndex(0);
+    }
+    Graph graph = (dynamic_cast<Canvas*>(tab->currentWidget())->getGraph()).copy();
+    newG();
+    dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(graph);
+    changeMatrix();
+    for (int i = 0; i < table->rowCount(); i++)
+        for (int j = 0; j < table->rowCount(); j++) {
+                if (newmatrix[i][j] > 0 && j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(QString::number(newmatrix[i][j]));
+                    table->setItem(i, j, item);
+                }
+                else if (j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(tr("0"));
+                    table->setItem(i, j, item);
+                }
+            }
+    changeMatrix();
+}
+
+
+void prim(QVector<QVector<int>> &g, QVector<int> &v, QVector<QVector<int>> &newg) {
+    int min = 10000000;
+    int x = 0;
+    int y = 0;
+    for (int i = 0; i < g[0].size(); i++) {
+        for (int j = 0; j < g[0].size(); j++) {
+            if (v[i] == 1 && v[j] == 0 && g[i][j] > 0 && g[i][j] < min) {
+                min = g[i][j];
+                x = i;
+                y = j;
+            }
+        }
+    }
+    if (x == 0 && y == 0 && min == 10000000){
+        for (int i = 0; i < v.size(); i++) {
+            if (v[i] == 0) {
+                v[i] = 1;
+                prim(g, v, newg);
+            }
+        }
+    }
+    newg[x][y] = min;
+    newg[y][x] = min;
+    v[y] = 1;
+    int z = 0;
+    for (int k = 0; k < g[0].size(); k++) {
+        if (v[k] == 1) {
+            z++;
+        }
+    }
+    if (z < v.size())
+        prim(g, v, newg);
+}
+
+void MainWindow::func122()
+{
+    QVector<QVector<int>> matrix;
+    QVector<QVector<int>> newmatrix;
+    for (int i = 0; i < table->rowCount(); i++) {
+        QVector<int> vector;
+        QVector<int> newvector;
+        for (int j = 0; j < table->rowCount(); j++) {
+            QTableWidgetItem *x = table->item(i, j);
+            vector.push_back(x->text().toInt());
+            newvector.push_back(0);
+        }
+        matrix.push_back(vector);
+        newmatrix.push_back(newvector);
+    }
+    QVector<int> v;
+    for (int i = 0; i < matrix[0].size(); i++) {
+        if (i == 0) {
+            v.push_back(1);
+        }
+        else {
+            v.push_back(0);
+        }
+    }
+    prim(matrix, v, newmatrix);
+    if (cmbx->currentText() == "Ориентированный граф") {
+        cmbx->setCurrentIndex(0);
+    }
+    Graph graph = (dynamic_cast<Canvas*>(tab->currentWidget())->getGraph()).copy();
+    newG();
+    dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(graph);
+    changeMatrix();
+    for (int i = 0; i < table->rowCount(); i++)
+        for (int j = 0; j < table->rowCount(); j++) {
+                if (newmatrix[i][j] > 0 && j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(QString::number(newmatrix[i][j]));
+                    table->setItem(i, j, item);
+                }
+                else if (j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(tr("0"));
+                    table->setItem(i, j, item);
+                }
+            }
+    changeMatrix();
+}
+
+void MainWindow::func123() {
+    QVector < pair < int, pair<int,int> > > g;
+    QVector<QVector<int>> newmatrix;
+    int n = table->rowCount();
+    for (int i = 0; i < table->rowCount(); i++) {
+        QVector<int> newvector;
+        for (int j = 0; j < table->rowCount(); j++) {
+            newvector.push_back(0);
+            QTableWidgetItem *x = table->item(i, j);
+            if (x->text().toInt() > 0) {
+                g.push_back(make_pair(x->text().toInt(), make_pair(i, j)));
+            }
+        }
+        newmatrix.push_back(newvector);
+    }
+
+    QVector < pair < int, pair<int,int> > > res;
+
+    sort (g.begin(), g.end());
+
+    QVector<int> tree_id;
+
+    for (int i = 0; i < n; i++)
+        tree_id.push_back(i);
+
+    for (int i=0; i<n; ++i)
+        tree_id[i] = i;
+    for (int i=0; i<g.size(); ++i)
+    {
+        int a = g[i].second.first,  b = g[i].second.second,  l = g[i].first;
+        if (tree_id[a] != tree_id[b])
+        {
+            res.push_back (make_pair(l, make_pair(a, b)));
+            int old_id = tree_id[b],  new_id = tree_id[a];
+            for (int j=0; j<n; ++j)
+                if (tree_id[j] == old_id)
+                    tree_id[j] = new_id;
+        }
+    }
+
+    for (int i = 0; i < res.size(); i++) {
+        newmatrix[res.at(i).second.first][res.at(i).second.second] = res.at(i).first;
+    }
+    if (cmbx->currentText() == "Ориентированный граф") {
+        cmbx->setCurrentIndex(0);
+    }
+    Graph graph = (dynamic_cast<Canvas*>(tab->currentWidget())->getGraph()).copy();
+    newG();
+    dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(graph);
+    changeMatrix();
+    for (int i = 0; i < table->rowCount(); i++)
+        for (int j = 0; j < table->rowCount(); j++) {
+                if (newmatrix[i][j] > 0 && j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(QString::number(newmatrix[i][j]));
+                    table->setItem(i, j, item);
+                }
+                else if (j > i) {
+                    QTableWidgetItem *item = new QTableWidgetItem(tr("0"));
+                    table->setItem(i, j, item);
+                }
+            }
+    changeMatrix();
 }
 
 #include "task13.h"

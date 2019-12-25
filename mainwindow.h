@@ -101,6 +101,12 @@ private slots:
 
     void func11();
 
+    void func121();
+
+    void func122();
+
+    void func123();
+
     void func13();
 
     void func15();
