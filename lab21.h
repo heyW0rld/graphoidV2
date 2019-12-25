@@ -8,13 +8,13 @@
 #include <QQueue>
 #include <random>
 #include <cmath>
-
+#include <functional>
 //#include <mpair.h>
 #include <chrono>
 #include <queue>
 #include <QMatrix>
 #include <QSet>
-
+using namespace std;
 template <typename K, typename V>
 class MPair
 {
