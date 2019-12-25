@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     edge.cpp \
     graph.cpp \
+    laba10.cpp \
     main.cpp \
     canvas.cpp \
     mainwindow.cpp \
@@ -29,6 +30,8 @@ HEADERS += \
     canvas.h \
     edge.h \
     graph.h \
+    lab10.h \
+    lab19.h \
     lab2.h \
     lab3.h \
     lab4.h \

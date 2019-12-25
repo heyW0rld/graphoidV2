@@ -1598,7 +1598,7 @@ void MainWindow::func10()
                             tr("Нечётная сумма степеней"), QMessageBox::Ok);
       return;
   }
-
+    laba10(powerList);
 }
 
 

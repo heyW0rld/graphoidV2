@@ -26,6 +26,8 @@
 #include <QComboBox>
 #include <QListView>
 #include <tas15.h>
+#include <lab19.h>
+#include <lab10.h>
 
 namespace Ui {
 class MainWindow;
