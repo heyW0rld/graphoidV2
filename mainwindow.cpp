@@ -1978,27 +1978,27 @@ void MainWindow::func15()
 
     while(true){
 
-        QString startName = QInputDialog::getText(this, "С хуем", "Введите имя вершины:");
+        QString startName = QInputDialog::getText(this, "мужик", "Введите имя вершины:");
         if(startName =="-")
             break;
         if (!verticesNames.contains(startName))
         {
-            QMessageBox::warning(this, "ты невнимательная мразь", "Нет вершины с именем " + startName + "!");
+            QMessageBox::warning(this, "ты невнимательный юзер", "Нет вершины с именем " + startName + "!");
             return;
         }
 
         firstDOLA.append(startName);
     }
     while(true){
-        QString startName = QInputDialog::getText(this, "Без хуя", "Введите имя вершины:");
+        QString startName = QInputDialog::getText(this, "баба", "Введите имя вершины:");
         if(startName =="-")
             break;
         if (!verticesNames.contains(startName)){
-            QMessageBox::warning(this, "ты невнимательная мразь", "Нет вершины с именем " + startName + "!");
+            QMessageBox::warning(this, "ты невнимательный юзер", "Нет вершины с именем " + startName + "!");
             return;
         }
         if(firstDOLA.contains(startName)){
-            QMessageBox::warning(this, "ты невнимательная мразь", " ты уже писал это, слепошара!!!");
+            QMessageBox::warning(this, "ты невнимательный юзер", " ты уже писал это, слепошара!!!");
             return;
         }
 
@@ -2007,7 +2007,7 @@ void MainWindow::func15()
     if(firstDOLA.size() == secondDOLA.size()){
         g = lab15(g,firstDOLA,secondDOLA);
     }else{
-        QMessageBox::warning(this, "ты невнимательная мразь", " количества не сопадают");
+        QMessageBox::warning(this, "ты невнимательный юзер", " количества не сопадают");
         return;
     }
     newG();
