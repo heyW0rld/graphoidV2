@@ -279,6 +279,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //    15 лаба
     QAction *f15 = new QAction(tr("&Задача о свадьбах"), this);
     functions->addAction(f15);
+    //21
+    QAction *f21 = new QAction(tr("&Эффективность алгоритмов поиска пути."), this);
+    functions->addAction(f21);
+
 
     //          ===== </ЗАДАНИЯ> =====
 
@@ -348,6 +352,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(f14, SIGNAL(triggered()), this, SLOT(func14()));
 
     connect(f15, SIGNAL(triggered()), this, SLOT(func15()));
+
+    connect(f21, SIGNAL(triggered()), this, SLOT(func21()));
 }
 
 
@@ -2006,4 +2012,21 @@ void MainWindow::func15()
     }
     newG();
     dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(g);
+}
+
+void MainWindow::func21(){
+//    Scene* currentScene = dynamic_cast<Scene*>(ui->tabWidget->currentWidget());
+       Graph graph = dynamic_cast<Canvas*>(tab->currentWidget())->getGraph();
+
+       Solution_21 sol;
+       typedef QVector<QVector<int>> MMatrix;
+       MMatrix graphi = sol.generateGraph(10000);
+       sol.algorithmComparator(graphi);
+
+       QFile file("out.txt");
+       if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+           return;
+
+       QTextStream out(&file);
+       out << sol.getLog();
 }

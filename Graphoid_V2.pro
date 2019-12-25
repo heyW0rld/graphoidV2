@@ -33,6 +33,7 @@ HEADERS += \
     lab10.h \
     lab19.h \
     lab2.h \
+    lab21.h \
     lab3.h \
     lab4.h \
     planar_dual.h \

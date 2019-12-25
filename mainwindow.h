@@ -28,6 +28,7 @@
 #include <tas15.h>
 #include <lab19.h>
 #include <lab10.h>
+#include <lab21.h>
 
 namespace Ui {
 class MainWindow;
@@ -112,6 +113,8 @@ private slots:
     void func14();
 
     void func15();
+
+    void func21();
 };
 
 #endif // MAINWINDOW_H
