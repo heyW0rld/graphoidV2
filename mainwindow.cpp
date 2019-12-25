@@ -271,6 +271,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *f13 = new QAction(tr("&Задача о цикле"), this);
     functions->addAction(f13);
 
+//    14 лаба
+    QAction *f14 = new QAction(tr("&Раскраска графа"), this);
+    functions->addAction(f14);
+
+
 //    15 лаба
     QAction *f15 = new QAction(tr("&Задача о свадьбах"), this);
     functions->addAction(f15);
@@ -339,6 +344,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(f123, SIGNAL(triggered()), this, SLOT(func123()));
 
     connect(f13, SIGNAL(triggered()), this, SLOT(func13()));
+
+    connect(f14, SIGNAL(triggered()), this, SLOT(func14()));
 
     connect(f15, SIGNAL(triggered()), this, SLOT(func15()));
 }
@@ -1895,9 +1902,53 @@ void MainWindow::func13()
                 file.close();
         }
     }
-
-
 }
+
+#include "task14.h"
+//раскраска графа
+void MainWindow::func14()
+{
+    bool isOrient = false;
+    if (table->rowCount() > 1){
+        //проверяю граф на ориентированность
+        //он должен быть неориентированным
+        QVector<QVector<int>> matrix;
+        for (int i = 0; i < table->rowCount(); i++) {
+            QVector<int> vector;
+            for (int j = 0; j < table->rowCount(); j++) {
+                QTableWidgetItem *x = table->item(i, j);
+                vector.push_back(x->text().toInt());
+            }
+            matrix.push_back(vector);
+        }
+        for (int i = 0; i < table->rowCount(); i++) {
+            for (int j = 0; j < table->rowCount(); j++)
+                if (matrix[i][j] != matrix[j][i]) {
+                    isOrient = true;
+                    break;
+                }
+            if (isOrient == true) {
+                break;
+            }
+        }
+
+        if(isOrient){
+            QMessageBox::warning(this, "Ориентированный граф", "Ваш граф ориентированный, пожалуйста используйте для данного "
+                                                               "алгоритма неориентированный граф");
+
+        }
+        else {
+            //сам алгоритм
+            Graph g = dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().copy();
+            int number = colourVertex(g);
+            newG();
+            dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(g);
+            QMessageBox::about(this, "Число", "Хроматическое число: " + QString::number(number));
+        }
+
+    }
+}
+
 // Задача о свадьбах
 void MainWindow::func15()
 {

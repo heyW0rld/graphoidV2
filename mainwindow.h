@@ -109,6 +109,8 @@ private slots:
 
     void func13();
 
+    void func14();
+
     void func15();
 };
 
