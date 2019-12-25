@@ -19,6 +19,7 @@ public:
     void paint(QPainter *painter);
     const QString & getName() const;
     const QPoint & getPoint() const;
+    const QColor & getColor() const;
 
 private:
     QString name;

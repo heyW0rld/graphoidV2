@@ -37,3 +37,8 @@ const QPoint & Vertex::getPoint() const
 {
     return point;
 }
+
+const QColor & Vertex::getColor() const
+{
+    return color;
+}
