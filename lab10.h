@@ -1,6 +1,7 @@
 #ifndef LAB10_H
 #define LAB10_H
 #include <QList>
+#include <graph.h>
 
-void laba10(QList<int> powerList);
+Graph laba10(QList<int> powerList);
 #endif // LAB10_H

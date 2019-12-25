@@ -1614,7 +1614,9 @@ void MainWindow::func10()
                             tr("Нечётная сумма степеней"), QMessageBox::Ok);
       return;
   }
-
+  newG();
+  dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(laba10(powerList));
+  changeMatrix();
 }
 
 

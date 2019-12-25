@@ -167,10 +167,10 @@ QList<QList<int>> graphBase(QVector<QVector<int>> matrix) {
 
 
 
-void laba10(QList<int> powerList){
+Graph laba10(QList<int> powerList){
     QVector<int>vectorStepeney = powerList.toVector();
 //    QVector<int> vectorSepeney = VectorStepeney(graph);
-//    QVector<int> vect = {6, 4, 4, 3, 3, 2, 2};
+//    QVector<int> vect = {6 4 4 3 3 2 2};
     int n = vectorStepeney.size();
 
 
@@ -188,13 +188,23 @@ void laba10(QList<int> powerList){
     //    Конечный результат работы алгоритма
         qDebug() << edges;
         Graph graph;
-        for(int i = 0; i<n;++i){
+        for(int i = 1; i<=n;++i){
         vertex_smpt v1(new Vertex("Ver" + QString::number(i), (1+i)%200+ rand()%200,(1+i)%200+rand()%200));
         v1->setColor(Qt::green);
         graph.insert(v1, QList<edge_smpt>());
         }
+        auto all_vertex = graph.getVertexAsKeys();
         for (QList<int> edge: edges) {
-            qDebug()<<edge;
+            for(auto v1:all_vertex){
+                for(auto v2:all_vertex){
+                    QString s1 = "Ver" + QString::number(edge[0]);
+                    QString s2 = "Ver" + QString::number(edge[1]);
+                    if(v1->getName() == s1 && v2->getName() == s2){
+                    edge_smpt edge1 = edge_smpt(new Edge(v1, v2, 1));
+                    graph[v1].append(edge1);
+                    }
+                }
+            }
         }
 
     //     Cоздаём квадратную матрицу нулей
@@ -207,14 +217,32 @@ void laba10(QList<int> powerList){
         }
 //        qDebug()<<matrix;
     //    Строим базу
+        QString baza;
         QList<QList<int>> base = graphBase(matrix);
+        for (QList<int> edge: base) {
+            baza+="( ";
+            baza+= QString::number(edge[0]);
+            baza+=",";
+//            for(int edg:edge){
+//                baza
+//            }
+
+            baza+=QString::number(edge[1]);
+            baza+=")";
+        }
 
     //     Если база есть, то граф экстремальный
         if (base.size() != 0) {
+            QMessageBox msgBox;
+            msgBox.setText("Граф экстремальный  - База -" + baza);
+            msgBox.exec();
             qDebug() << "Граф экстремальный";
             qDebug() << "База:" << base;
         }
-        else
-            qDebug() << "Граф не экстремальный";
-//    return;
+        else{
+            QMessageBox msgBox;
+            msgBox.setText("Граф не экстремальный  ");
+            msgBox.exec();
+        }
+    return graph;
 }
