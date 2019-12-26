@@ -80,7 +80,7 @@ int colourVertex(Graph &g)
     countVertexDegree(g, vertices);
 
     //сортирую список по невозрастанию степеней
-    std::sort(vertices.begin(), vertices.end(), degreeCompare);
+    //std::sort(vertices.begin(), vertices.end(), degreeCompare);
 
     while(!vertices.isEmpty()) {
         QColor color = colorList[chrom_number];
@@ -92,9 +92,11 @@ int colourVertex(Graph &g)
             }
         }
         //сортирую оставшийся список по невозрастанию степеней
-        std::sort(vertices.begin(), vertices.end(), degreeCompare);
+        //std::sort(vertices.begin(), vertices.end(), degreeCompare);
 
         ++chrom_number;
+        if(chrom_number == colorList.size())
+                        colorList.append(QColor(Qt::white + chrom_number * 10));
     }
 
     return chrom_number;
