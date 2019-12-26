@@ -2007,12 +2007,12 @@ void MainWindow::func15()
 
         secondDOLA.append(startName);
     }
-    if(firstDOLA.size() == secondDOLA.size()){
+//    if(firstDOLA.size() == secondDOLA.size())//{
         g = lab15(g,firstDOLA,secondDOLA);
-    }else{
-        QMessageBox::warning(this, "ты невнимательный юзер", " количества не сопадают");
-        return;
-    }
+//    }else{
+//        QMessageBox::warning(this, "ты невнимательный юзер", " количества не сопадают");
+//        return;
+//    }
     newG();
     dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(g);
 }
@@ -2026,7 +2026,7 @@ void MainWindow::func21(){
        MMatrix graphi = sol.generateGraph(10000);
        sol.algorithmComparator(graphi);
 
-       QFile file("out.txt");
+       QFile file("out1.txt");
        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
            return;
 

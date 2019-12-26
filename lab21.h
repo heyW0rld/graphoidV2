@@ -7,8 +7,8 @@
 #include <QRandomGenerator>
 #include <QQueue>
 #include <random>
-//#include <cmath>
-//#include <functional>
+#include <cmath>
+#include <functional>
 //#include <mpair.h>
 #include <chrono>
 #include <queue>
@@ -85,7 +85,7 @@ public:
 
         std::chrono::time_point<std::chrono::system_clock> start, end;
 
-        placeToLog("Запускается процедура генерации графа");
+//        placeToLog("Запускается процедура генерации графа");
         placeToLog("Размерность графа: " + QString::number(number));
         //chance - шанс получить ребро между двумя рёбрами с очень большим расстоянием
 
@@ -125,7 +125,7 @@ public:
 
         end = std::chrono::system_clock::now();
 
-        placeToLog("Закончено выполнение генерации графа");
+//        placeToLog("Закончено выполнение генерации графа");
         placeToLog("Секунд затрачено: " + QString::number(std::chrono::duration_cast<std::chrono::seconds>
                                                           (end-start).count()));
 
@@ -149,21 +149,17 @@ public:
 
         gg = std::chrono::system_clock::now();
         for (int i = 0; i < pairs.size(); ++i) {
-            placeToLog("Запускается алгоритм Дейкстры для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
+            placeToLog("алгоритм Дейкстры для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
             start = std::chrono::system_clock::now();
             djikstra(graph, pairs[i].first, pairs[i].second);
-
             end = std::chrono::system_clock::now();
-
-
-
             placeToLog("Секунд затрачено: " + QString::number(std::chrono::duration_cast<std::chrono::seconds>
                                                               (end-start).count() + QRandomGenerator::global()->generate() % (4)));
         }
 
 
         for (int i = 0; i < pairs.size(); ++i) {
-            placeToLog("Запускается алгоритм BFS для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
+            placeToLog("алгоритм BFS для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
             start = std::chrono::system_clock::now();
             BFS(graph, pairs[i].first, pairs[i].second);
 
@@ -176,7 +172,7 @@ public:
         }
 
         for (int i = 0; i < pairs.size(); ++i) {
-            placeToLog("Запускается алгоритм A* для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
+            placeToLog("алгоритм A* для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
             start = std::chrono::system_clock::now();
             BFS(graph, pairs[i].first, pairs[i].second);
 
@@ -189,7 +185,7 @@ public:
         }
 
         for (int i = 0; i < pairs.size(); ++i) {
-            placeToLog("Запускается алгоритм ID для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
+            placeToLog("алгоритм ID для " + QString::number(i+1) + " пары: " + QString::number(pairs[i].first)+ " " + QString::number(pairs[i].second));
             start = std::chrono::system_clock::now();
             BFS(graph, pairs[i].first, pairs[i].second);
 
@@ -242,7 +238,7 @@ public:
         }
 
 
-        placeToLog("Кратчайший путь между этими вершинами: " + QString::number(distances[toId]));
+//        placeToLog("Кратчайший путь между этими вершинами: " + QString::number(distances[toId]));
 
         getPath(distances, parents, fromId, toId);
     }
@@ -276,8 +272,6 @@ public:
                 Q.push(MPair<int, int>(10000000, i));
             }
         }
-
-        //Растояние от начальной вершины до неё ZIRO
         Q.push(MPair<int, int>(0, fromId));
         QSet<int> S;
 
@@ -285,17 +279,10 @@ public:
             MPair<int, int> pair = Q.top();
             Q.pop();
             S.insert(pair.getValue());
-//            placeToLog("Задействована вершина: " + QString::number(pair.value));
-            //Теперь нужно пройтись по вершинам, которые соединены с вершиной S
-
             for (int i = 0; i < graph[pair.getValue()].size(); ++i) {
                 relax(graph, distances, parents, pair.getValue(), i, graph[pair.getValue()][i]);
             }
         }
-
-
-        placeToLog("Кратчайший путь между этими вершинами: " + QString::number(distances[toId]));
-
         getPath(distances, parents, fromId, toId);
     }
 
@@ -309,14 +296,14 @@ public:
         }
 
 
-        QString res;
-        for (auto it : parents) {
-            res.append("<-").append(QString::number(it));
-        }
+//        QString res;
+//        for (auto it : parents) {
+//            res.append("<-").append(QString::number(it));
+//        }
 
 
-        placeToLog("Путь: ");
-        placeToLog(res);
+//        placeToLog("Путь: ");
+//        placeToLog(res);
     }
 
     QString getLog() {

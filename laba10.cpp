@@ -179,7 +179,7 @@ Graph laba10(QList<int> powerList){
 
         if (edges.size() == 0){
             QMessageBox msgBox;
-            msgBox.setText("Ошибка в записи.");
+            msgBox.setText("Граф невозможно построить.");
             msgBox.exec();
             qDebug() << "Граф невозможно построить";
         }
@@ -232,6 +232,7 @@ Graph laba10(QList<int> powerList){
             baza+=QString::number(edge[1]);
             baza+=")";
         }
+
 
     //     Если база есть, то граф экстремальный
         if (base.size() != 0) {
