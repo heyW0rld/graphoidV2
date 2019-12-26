@@ -202,6 +202,8 @@ Graph laba10(QList<int> powerList){
                     if(v1->getName() == s1 && v2->getName() == s2){
                     edge_smpt edge1 = edge_smpt(new Edge(v1, v2, 1));
                     graph[v1].append(edge1);
+                    edge_smpt edge2 = edge_smpt(new Edge(v2, v1, 1));
+                    graph[v2].append(edge2);
                     }
                 }
             }

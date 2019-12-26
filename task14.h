@@ -1,9 +1,10 @@
-#ifndef TASK14_H
+﻿#ifndef TASK14_H
 #define TASK14_H
 
 #include "graph.h"
 #include <qdebug.h>
 #include <QMap>
+#include <algorithm>
 
 //мапа степеней всех вершин, нужна для сортировки
 //в процессе работы алгоритма
@@ -61,7 +62,6 @@ void countVertexDegree(Graph &g, const QList<vertex_smpt> &vertices)
 
 int colourVertex(Graph &g)
 {
-    qDebug() << "There";
     //хроматическое число
     int chrom_number = 0;
 
@@ -75,13 +75,9 @@ int colourVertex(Graph &g)
 
     //лист всех незакрашенных вершин (закрашенные вершины будут из него удаляться)
     QList<vertex_smpt> vertices = g.getVertexAsKeys().toList();
-
     //нахожу степени каждой вершины и заполняю ими мапу
     countVertexDegree(g, vertices);
-
     //сортирую список по невозрастанию степеней
-    //std::sort(vertices.begin(), vertices.end(), degreeCompare);
-
     while(!vertices.isEmpty()) {
         QColor color = colorList[chrom_number];
         //крашу вершины в цвет color, окрашенные удаляю
@@ -91,12 +87,10 @@ int colourVertex(Graph &g)
                 vertices.removeOne(ver);
             }
         }
-        //сортирую оставшийся список по невозрастанию степеней
-        //std::sort(vertices.begin(), vertices.end(), degreeCompare);
 
         ++chrom_number;
         if(chrom_number == colorList.size())
-                        colorList.append(QColor(Qt::white + chrom_number * 10));
+                        colorList.append(QColor(Qt::white + chrom_number * 20));
     }
 
     return chrom_number;

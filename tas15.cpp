@@ -163,10 +163,10 @@ Graph lab15(Graph gr,QVector<QString> v1,QVector<QString> v2){
     }else{
         qDebug()<<graph.getVertexAsKeys().size() ;
                 qDebug()<<gr.getVertexAsKeys().size();
-        QMessageBox msgBox;
-        msgBox.setText("задача не может быть решена.");
-        msgBox.exec();
-        return gr;
+//        QMessageBox msgBox;
+//        msgBox.setText("задача не может быть решена.");
+//        msgBox.exec();
+        return graph;
     }
 
 }
