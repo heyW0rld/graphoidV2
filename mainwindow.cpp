@@ -245,9 +245,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *f7 = new QAction(tr("&Бинарные операции над графами"), this);
     functions->addAction(f7);
 
-    //  9 лаба
-    QAction *f9 = new QAction(tr("&Планарность"), this);
-    functions->addAction(f9);
+//    //  9 лаба
+//    QAction *f9 = new QAction(tr("&Планарность"), this);
+//    functions->addAction(f9);
 
     //    10 лаба
     QAction *f10 = new QAction(tr("&Восстановление графа из вектора"), this);
@@ -335,7 +335,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(f7, SIGNAL(triggered()), this, SLOT(func7()));
 
-    connect(f9, SIGNAL(triggered()), this, SLOT(func9()));
+//    connect(f9, SIGNAL(triggered()), this, SLOT(func9()));
 
     connect(f10, SIGNAL(triggered()), this, SLOT(func10()));
 
@@ -1570,25 +1570,25 @@ void MainWindow::func7()
     changeMatrix();
 }
 
-#include "task9.h"
-//планарность графа
-void MainWindow::func9(){
-    if (table->rowCount() > 1){
-        QVector<QVector<int>> matrix;
-        for (int i = 0; i < table->rowCount(); i++) {
-            QVector<int> vector;
-            for (int j = 0; j < table->rowCount(); j++) {
-                QTableWidgetItem *x = table->item(i, j);
-                vector.push_back(x->text().toInt());
-            }
-            matrix.push_back(vector);
-        }
-        Graph gr = lab9(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph(),matrix);
-        newG();
-        dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(gr);
-        changeMatrix();
-    }
-}
+//#include "task9.h"
+////планарность графа
+//void MainWindow::func9(){
+//    if (table->rowCount() > 1){
+//        QVector<QVector<int>> matrix;
+//        for (int i = 0; i < table->rowCount(); i++) {
+//            QVector<int> vector;
+//            for (int j = 0; j < table->rowCount(); j++) {
+//                QTableWidgetItem *x = table->item(i, j);
+//                vector.push_back(x->text().toInt());
+//            }
+//            matrix.push_back(vector);
+//        }
+//        Graph gr = lab9(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph(),matrix);
+//        newG();
+//        dynamic_cast<Canvas*>(tab->currentWidget())->setGraph(gr);
+//        changeMatrix();
+//    }
+//}
 
 // Восстановление графа из вектора
 void MainWindow::func10()
@@ -1867,6 +1867,8 @@ void MainWindow::func13()
                 if(ver->getName() == table->horizontalHeaderItem(verInCyc)->text())
                     ver->setColor(Qt::red);
             }
+        dynamic_cast<Canvas*>(tab->currentWidget())->repaint();
+
     }
     else
     {

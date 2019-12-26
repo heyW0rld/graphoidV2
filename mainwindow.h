@@ -96,7 +96,7 @@ private slots:
 
     void func7();
 
-    void func9();
+    //void func9();
 
     void func10();
 
