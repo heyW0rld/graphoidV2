@@ -2,6 +2,7 @@
 #define TASK13_H
 
 #include <QDebug>
+#include "task6.h"
 #include "lab3.h"
 #include "graph.h"
 #include <QQueue>
@@ -51,18 +52,19 @@ QVector<int> minCycle(QVector<QVector<int>> g)
     QVector<int> ans;
     ans = Cycle_wideWalk(g, 0);
     int minCyc = ans.size();
-    for(int i = 1; i < g.size(); i++)
+    QVector<QVector<int>> comps = task6::find_comps(g);
+    for(auto it : comps)
     {
-        if(Cycle_wideWalk(g, i).size() < minCyc)
+        if(Cycle_wideWalk(g, it[0]).size() < minCyc && Cycle_wideWalk(g, it[0]).size() != 0)
         {
-            ans = Cycle_wideWalk(g, i);
+            ans = Cycle_wideWalk(g, it[0]);
             minCyc = ans.size();
-            qDebug() << i;
         }
     }
 
     return ans;
 }
+
 
 QVector<int> centerVer(Graph graph)
 {

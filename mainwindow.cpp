@@ -1852,12 +1852,7 @@ void MainWindow::func123() {
 #include "task13.h"
 void MainWindow::func13()
 {
-    int count_comps = task6::find_comps(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().toAdjacencyMatrix(compare)).size();
-    if(count_comps != 1)
-    {
-        QMessageBox::about(this, "Задача о цикле", "Граф несвязный");
-        return;
-    }
+
     QVector<int>cycle = task13::minCycle(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().toAdjacencyMatrix(compare));
     if(cycle.size())
     {
@@ -1872,6 +1867,12 @@ void MainWindow::func13()
     }
     else
     {
+        int count_comps = task6::find_comps(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph().toAdjacencyMatrix(compare)).size();
+        if(count_comps != 1)
+        {
+            QMessageBox::about(this, "Задача о цикле", "Граф несвязный");
+            return;
+        }
         QString centerStr;
         QVector<int> center = task13::centerVer(dynamic_cast<Canvas*>(tab->currentWidget())->getGraph());
         for(auto verCenter : center) //todo create new graph
