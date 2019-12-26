@@ -7,8 +7,8 @@
 #include <QRandomGenerator>
 #include <QQueue>
 #include <random>
-#include <cmath>
-#include <functional>
+//#include <cmath>
+//#include <functional>
 //#include <mpair.h>
 #include <chrono>
 #include <queue>
@@ -233,7 +233,7 @@ public:
             MPair<int, int> pair = Q.top();
             Q.pop();
             S.insert(pair.getValue());
-            placeToLog("Задействована вершина: " + QString::number(pair.value));
+//            placeToLog("Задействована вершина: " + QString::number(pair.value));
             //Теперь нужно пройтись по вершинам, которые соединены с вершиной S
 
             for (int i = 0; i < graph[pair.getValue()].size(); ++i) {
@@ -285,7 +285,7 @@ public:
             MPair<int, int> pair = Q.top();
             Q.pop();
             S.insert(pair.getValue());
-            placeToLog("Задействована вершина: " + QString::number(pair.value));
+//            placeToLog("Задействована вершина: " + QString::number(pair.value));
             //Теперь нужно пройтись по вершинам, которые соединены с вершиной S
 
             for (int i = 0; i < graph[pair.getValue()].size(); ++i) {
@@ -297,36 +297,6 @@ public:
         placeToLog("Кратчайший путь между этими вершинами: " + QString::number(distances[toId]));
 
         getPath(distances, parents, fromId, toId);
-
-//        QQueue<int> Q;
-//        QVector<int> p(graph.size(), MConstants::flag_unvisited);
-//        QVector<int> w(graph.size(), 0);
-//        QVector<bool> visited(graph.size(), false);
-
-//        visited[fromId] = true;
-
-//        Q.push_back(fromId);
-
-//        while(!Q.isEmpty()) {
-//            int v = Q.front();
-//            Q.pop_front();
-//            placeToLog("Задействована вершина: " + QString::number(v));
-
-//            for (int i = 0; i < graph[v].size(); ++i) {
-//                int to = i;
-
-//                if (!visited[to]) {
-//                    visited[to] = true;
-//                    Q.push_back(i);
-//                    w[to] += w[v] + 1;
-//                    p[to] = v;
-//                }
-//            }
-//        }
-
-//        placeToLog("Кратчайший путь между этими вершинами: " + QString::number(w[toId]));
-
-//        getPath(w, p, fromId, toId);
     }
 
     void getPath(QVector<int>& dist, QVector<int>& parents, int fromId, int toId) {
